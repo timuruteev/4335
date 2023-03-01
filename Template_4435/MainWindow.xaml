@@ -35,5 +35,8 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
+        <Button Grid.Row="4" Click="Button_Click">Перейти</Button>
+        <Button Grid.Row="18" Click="Button_Click_1">Перейти</Button>
+
     </Grid>
 </Window>

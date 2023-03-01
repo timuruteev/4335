@@ -24,5 +24,17 @@ namespace Template_4435
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            _4335Gubaidullin window = new _4335Gubaidullin();
+            window.Show();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            _4335Uteev window = new _4335Uteev();
+            window.Show();
+        }
     }
 }
