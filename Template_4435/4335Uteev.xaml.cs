@@ -10,6 +10,9 @@ using DocumentFormat.OpenXml.Spreadsheet;
 using OfficeOpenXml;
 using System.Data.SqlClient;
 using System.IO;
+using Newtonsoft.Json;
+using System.Text.Json;
+
 
 namespace Template_4435
 {
@@ -76,6 +79,65 @@ namespace Template_4435
                 excelPackage.SaveAs(file);
 
                 MessageBox.Show("Данные экспортированы успешно!");
+            }
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            using (var fileStream = new FileStream("C:\\Учеба\\ИСРПО\\Импорт\\2.json", FileMode.Open))
+            {
+                var options = new JsonSerializerOptions();
+                serDeser[] data = System.Text.Json.JsonSerializer.Deserialize<serDeser[]>(fileStream);
+
+                using (airtimdelal connection = new airtimdelal())
+                {
+                    foreach(var i in data)
+                    {
+                        connection.zakazies.Add(new zakazy(i.Id.ToString(), i.CodeOrder, i.CreateDate.ToString(), i.CodeClient, i.Services.ToString()));
+                        connection.SaveChanges();
+                    }
+               
+                }
+            }
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            DataTable table = GetDataTableFromDatabase();
+
+            // Создаем новый документ Word
+            using (WordprocessingDocument doc = WordprocessingDocument.Create("example.docx", WordprocessingDocumentType.Document))
+            {
+                // Добавляем секцию
+                MainDocumentPart mainPart = doc.AddMainDocumentPart();
+                mainPart.Document = new Document();
+                Body body = mainPart.Document.AppendChild(new Body());
+
+                // Добавляем абзацы
+                Paragraph para = body.AppendChild(new Paragraph());
+                para.AppendChild(new Run(new Text("Данные из базы данных:")));
+
+                // Добавляем таблицу с данными
+                Table tableElement = new Table();
+                TableRow headerRow = new TableRow();
+                foreach (DataColumn column in table.Columns)
+                {
+                    headerRow.AppendChild(new TableCell(new Paragraph(new Run(new Text(column.ColumnName)))));
+                }
+                tableElement.AppendChild(headerRow);
+                foreach (DataRow row in table.Rows)
+                {
+                    TableRow tableRow = new TableRow();
+                    foreach (DataColumn column in table.Columns)
+                    {
+                        tableRow.AppendChild(new TableCell(new Paragraph(new Run(new Text(row[column].ToString())))));
+                    }
+                    tableElement.AppendChild(tableRow);
+                }
+                body.AppendChild(tableElement);
+
+                // Сохраняем документ
+                doc.Save();
             }
         }
     }
