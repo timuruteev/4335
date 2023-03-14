@@ -7,6 +7,9 @@
         mc:Ignorable="d"
         Title="_4335Uteev" Height="450" Width="800">
     <Grid>
-        
+        <Label>Утеев Тимур 4335</Label>
+        <Button Margin="150" Width="150" Height="50" HorizontalAlignment='Left' Click="Button_Click">Импорт данных</Button>
+        <Button Margin="150" Width="150" Height="50" HorizontalAlignment='Right' Click="Button_Click_1">Экспорт данных</Button>
+
     </Grid>
 </Window>

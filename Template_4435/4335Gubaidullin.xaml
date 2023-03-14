@@ -8,5 +8,6 @@
         Title="_4335Gubaidullin" Height="450" Width="800">
     <Grid>
         <Label>Губайдуллин Айрат 4335</Label>
+        <Button Width="150" Height="50" HorizontalAlignment='Center'>Импорт данных</Button>
     </Grid>
 </Window>
